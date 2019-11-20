@@ -8,11 +8,13 @@
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "build": "webpack --mode production"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AngelEvelyn/ConnectShakespeare.git"
+  },
   "author": "Angel Vega",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "^4.3.0",
-    "@material-ui/icons": "^4.2.1",
     "axios": "^0.19.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
