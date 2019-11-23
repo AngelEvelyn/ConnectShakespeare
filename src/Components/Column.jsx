@@ -1,3 +1,7 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { Component } from 'react';
 
+const Column = () => {
+    return (  );
+}
+ 
 export default Column;

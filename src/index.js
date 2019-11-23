@@ -1,11 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
-import MyProvider from './Context.jsx';
-import App from './App.jsx';
+import App from './App';
 
 render(
-  <MyProvider>
     <App />
-  </MyProvider>,
   document.getElementById('root'),
 );
