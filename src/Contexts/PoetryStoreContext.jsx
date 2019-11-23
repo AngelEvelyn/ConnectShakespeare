@@ -1,25 +1,30 @@
 import React, { Component, createContext } from 'react';
 
-const PoetryStoreContext = createContext();
+export const PoetryStoreContext = createContext();
 
 class PoetryStoreContextProvider extends Component {
-    state = {  
-        poetryStore = [] //an array of objects?
+  constructor(props) {
+    super(props);
+    this.state = {
+      poetryStore: []
     }
-    undoPoem = () => {
-        const newPoetryStore = this.state.poetryStore.slice().pop();
-        this.setState({poetryStore: newPoetryStore});
-    }
-    getPoem = () => {
-        //ajax call here? or is a reducer needed?
-    }
-    render() { 
-        return ( 
-            <PoetryStoreContext.Provider value={{...this.state, poetryStore: this.poetryStore}}>
-                {this.props.children}
-            </PoetryStoreContext.Provider>
-         );
-    }
+    this.GetPoem = this.GetPoem.bind(this);
+    this.UndoPoem = this.UndoPoem.bind(this);
+  }
+  UndoPoem(){
+    const newPoetryStore = this.state.poetryStore.slice().pop();
+    this.setState({poetryStore: newPoetryStore});
+  }
+  GetPoem(){
+    //ajax call here? or is a reducer needed?
+  }
+  render() { 
+    return ( 
+      <PoetryStoreContext.Provider value={{...this.state, UndoPoem: this.UndoPoem}}>
+        {this.props.children}
+      </PoetryStoreContext.Provider>
+    );
+  }
 }
  
 export default PoetryStoreContextProvider;
