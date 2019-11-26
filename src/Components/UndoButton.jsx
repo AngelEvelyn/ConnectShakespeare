@@ -1,25 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { PoetryStoreContext } from '../Contexts/PoetryStoreContext';
-import { MoveStoreContext } from '../Contexts/MoveStoreContext';
 
-const UndoButton = () => {
+const UndoButton = (props) => {
+  const {undoPoem} = useContext(PoetryStoreContext);
+  const undoMove = props.undoMove;
+
+  const undoAll = () => {
+    undoMove();
+    undoPoem();
+  }
   return (
-    <PoetryStoreContext.Consumer>{(poetryStoreContext) => {
-      return (
-        <MoveStoreContext.Consumer>
-          {(moveStoreContext) => {
-              const undoMove = moveStoreContext;
-              return (
-                <button onClick={(event) => {
-                  undoMove(event.target.id);
-                  removePoem();
-                }}></button>
-              )
-          }}
-        </MoveStoreContext.Consumer>
-      )
-    }}</PoetryStoreContext.Consumer>
-      
+    <button className='undo-button' onClick={undoAll} value='Undo Move'></button>
   );
 }
  

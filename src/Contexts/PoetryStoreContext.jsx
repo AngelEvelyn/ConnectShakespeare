@@ -1,30 +1,36 @@
-import React, { Component, createContext } from 'react';
+import React, { createContext, useState } from 'react';
 
 export const PoetryStoreContext = createContext();
 
-class PoetryStoreContextProvider extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      poetryStore: []
-    }
-    this.GetPoem = this.GetPoem.bind(this);
-    this.UndoPoem = this.UndoPoem.bind(this);
+PoetryStoreContextProvider = (props) => {
+  const [poetryStore, setPoetryStore] = useState([]);
+
+  const undoPoem = () => {
+    const newPoetryStore = [...poetryStore].pop();
+    setPoetryStore([...newPoetryStore]);
   }
-  UndoPoem(){
-    const newPoetryStore = this.state.poetryStore.slice().pop();
-    this.setState({poetryStore: newPoetryStore});
+  const getPoem = () => {
+    fetch('', {
+      method:'GET',
+      headers: {'Content-Type': 'application/json'}
+    })
+  .then(res => {
+    return res.json();
+  })
+  .then(data => {
+    console.log(data);
+    //grab random line in string with regex
+    const newPoem = {title, line}; //object with title and line property
+    setPoetryStore([...poetryStore, newPoem]);
+    return;
+    });
   }
-  GetPoem(){
-    //ajax call here? or is a reducer needed?
-  }
-  render() { 
+
     return ( 
-      <PoetryStoreContext.Provider value={{...this.state, UndoPoem: this.UndoPoem}}>
-        {this.props.children}
+      <PoetryStoreContext.Provider value={{poetryStore, getPoem, undoPoem}}>
+        {props.children}
       </PoetryStoreContext.Provider>
     );
-  }
 }
  
-export default PoetryStoreContextProvider;
+export default PoetryStoreContextProvider; 

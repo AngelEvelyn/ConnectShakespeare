@@ -1,23 +1,17 @@
-import React, { useState, useReducer, useEffect } from 'react';
-import MoveStoreContextProvider from './Contexts/MoveStoreContext';
+import React from 'react';
 import PoetryStoreContextProvider from './Contexts/PoetryStoreContext';
 import Board from './Containers/Board';
 import PoetryDisplay from './Containers/PoetryDisplay';
-import UndoButton from './Components/UndoButton';
 
 const App = () => {
-    return (
+  return (
+    <PoetryStoreContextProvider>
       <div className='app'>
-        <MoveStoreContextProvider>
-          <PoetryStoreContextProvider>
-            <Board />
-            <PoetryDisplay />
-            <UndoButton />
-          </PoetryStoreContextProvider>
-        </MoveStoreContextProvider>
-
+        <Board />
+        <PoetryDisplay />
       </div>
-    )
+    </PoetryStoreContextProvider>
+  )
 }
 
 export default App;
