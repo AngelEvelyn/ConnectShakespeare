@@ -9,8 +9,8 @@ const App = () => {
       <AppStyled>
         <h1>Connect Shakespeare</h1>
         <PoetryContextProvider>
-          <Board />
-          <PoetryDisplay />
+          <Board className='board-parent'/>
+          <PoetryDisplay className='poetry-parent'/>
         </PoetryContextProvider>
       </AppStyled>
   )
@@ -18,7 +18,7 @@ const App = () => {
 
 const AppStyled = styled.div`
   display: grid;
-  grid-template-columns: 50px 50px 50px 50px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
   grid-template-areas: 
     ". header header ."
@@ -28,11 +28,11 @@ const AppStyled = styled.div`
     grid-area: header;
   }
 
-  Board {
+  .board-parent {
     grid-area: main;
   }
 
-  PoetryDisplay {
+  .poetry-parent {
     grid-area: sidebar;
   }
 `

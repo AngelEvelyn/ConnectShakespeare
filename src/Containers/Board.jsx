@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { PoetryContext } from '../Contexts/PoetryContext.jsx';
-import Column from '../Components/Column.jsx';
+import Row from '../Components/Row.jsx';
 import UndoButton from '../Components/UndoButton.jsx';
 import styled from 'styled-components';
 
@@ -10,18 +10,22 @@ const Board = () => {
   const player1 = 'cats';
   const player2 = 'iguanas';
 
+  const newBoard = () => {
+    const newBoard = [];
+    for(let i = 0; i < 6; i++){
+      newBoard[i] = [];
+      for (let j = 0; j < 7; j++){
+        newBoard[i].push('empty');
+      }
+    }
+    return newBoard;
+  }
+
   const { setPoetryStore, getPoem } = useContext(PoetryContext);
-  const [board, setBoard] = useState(new Array(7).fill(new Array(6).fill('empty')));
+  const [board, setBoard] = useState(newBoard());
   const [moveStore, setMoveStore] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState(player1);
 
-  const setNewBoard = () => {
-    setBoard(new Array(7).fill(new Array(6).fill('empty')));
-    setMoveStore([]);
-    setPoetryStore([]);
-
-    return;
-  }
 
   const addMove = (column) => {
     setMoveStore([...moveStore, column]);
@@ -39,13 +43,16 @@ const Board = () => {
       alert('Make a move first');
       return;
     }
-    let col = moveStore[moveStore.length - 1];
-    const newMoveStore = moveStore.slice(0, moveStore.length - 2)
+    let col = [...moveStore].pop();
+    const newMoveStore = moveStore.slice(0, moveStore.length - 1)
     //reset move store 
     setMoveStore(newMoveStore);
 
-    // clone board & reset last played slot to empty
-    const boardClone = [...board];
+    // clone board
+    const boardClone = [];
+    board.forEach((row) => boardClone.push([...row]));
+
+    // reset last played slot to empty
     for (let r = 0; r < 6; r++) {
       if (boardClone[r][col] !== 'empty') {
         boardClone[r][col] = 'empty';
@@ -59,51 +66,53 @@ const Board = () => {
   }
 
   const playSlot = (col) => {
-    // clone board & set played slot to current player
-    const boardClone = [...board];
-    console.log(col);
+    const boardClone = [];
+    board.forEach((row) => boardClone.push([...row]));
 
     for (let r = 5; r >= 0; r--) {
       if (boardClone[r][col] === 'empty') {
         boardClone[r][col] = currentPlayer;
         setBoard(boardClone);
         addMove(col);
+        getPoem(); //maybe async await needed here
         togglePlayer();
-        break;
+        return;
       }
     }
-      return;
+    alert('Choose a different column');
+    return;
   }
 
-  useEffect(() => {
-    getPoem();
-  }, [board])
-  
-  const columns = board.map((col, i) => <Column key={`col${i}`} id={i} playSlot={playSlot} column={col}></Column>);
+  const rows = board.map((row, i) => <Row key={`row${i}`} id={i} playSlot={playSlot} row={row}></Row>);
 
   return (
     <BoardStyled>
-      <button onClick={setNewBoard} className='button'><h4>Restart Game</h4></button>
+      <button onClick={() => {
+        setBoard(newBoard());
+        setMoveStore([]);
+        setPoetryStore([]);
+        setCurrentPlayer(player1);
+      }} className='button'><h4>Restart Game</h4></button>
       <p>{currentPlayer}</p>
-      <div className='inner-board'>
-        {columns}
-      </div>
-        
+      <table className='inner-board'>
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
       <UndoButton undoMove={undoMove}/>
     </BoardStyled>
-
   );
 
 }
+
+  // display: flex;
+  // flex-direction: column;
 
 const BoardStyled = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
-
   .inner-board {
-    display: flex;
-    flex-direction: row;
     border: 1px solid blue
   }
 `

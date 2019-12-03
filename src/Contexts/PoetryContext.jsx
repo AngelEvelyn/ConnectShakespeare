@@ -15,14 +15,11 @@ const PoetryContextProvider = (props) => {
 
   const getPoem = () => {
     axios.get('http://poetrydb.org/author/Shakespeare')
-    .then(res => {
-      return res.json();
-    })
     .then(data => {
       console.log(data);
       //grab random line in string with regex
       // make this into a helper function
-      // const poems = Object.entries(data);
+      const poem = data.data[Math.random()]
       // const title = poems[Math.random()]
       // const line = (data) => {
       //   data.lines
