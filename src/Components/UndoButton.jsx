@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { PoetryStoreContext } from '../Contexts/PoetryStoreContext';
+import { PoetryContext } from '../Contexts/PoetryContext.jsx';
 
 const UndoButton = (props) => {
-  const {undoPoem} = useContext(PoetryStoreContext);
+  const { undoPoem } = useContext(PoetryContext);
   const undoMove = props.undoMove;
 
   const undoAll = () => {
@@ -10,7 +10,7 @@ const UndoButton = (props) => {
     undoPoem();
   }
   return (
-    <button className='undo-button' onClick={undoAll} value='Undo Move'></button>
+    <button className='button' onClick={undoAll}>Undo Move</button>
   );
 }
  

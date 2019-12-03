@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import PoetryStoreContext from '../Contexts/PoetryStoreContext';
+import { PoetryContext } from '../Contexts/PoetryContext.jsx';
+import PoetryBox from '../Components/PoetryBox.jsx';
 
 const PoetryDisplay = () => {
-const {poetryStore} = useContext(PoetryStoreContext);
-const poetryBoxes = poetryStore.map((poem, i) => <PoetryBox key={`poem${i}`} id={i} title={poem.title} line={poem.line}></PoetryBox>);
+const { poetryStore } = useContext(PoetryContext);
+const poetryBoxes = poetryStore.map((poem, i) => <PoetryBox key={`poem${i}`} id={i} title={poem.title} line={poem.line} />);
     return ( 
         <div className='poetry-display'>
-            {poetryBoxes}
+          {poetryBoxes}
         </div>
      );
 }

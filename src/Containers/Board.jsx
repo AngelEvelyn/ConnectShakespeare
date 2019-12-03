@@ -1,78 +1,112 @@
 import React, {useContext, useEffect, useState} from 'react';
-import PoetryStoreContext from '../Contexts/PoetryStoreContext';
-import Column from '../Components/Column';
-import UndoButton from '../Components/UndoButton';
+import { PoetryContext } from '../Contexts/PoetryContext.jsx';
+import Column from '../Components/Column.jsx';
+import UndoButton from '../Components/UndoButton.jsx';
+import styled from 'styled-components';
 
 
 const Board = () => {
-  const {getPoem} = useContext(PoetryStoreContext);
-  const [board, setBoard] = useState(Array.fill(Array.fill(null, 0, 6), 0, 7));
-  const [moveStore, setMoveStore] = useState([]);
-  const [currentPlayer, setCurrentPlayer] = useState('');
 
   const player1 = 'cats';
   const player2 = 'iguanas';
 
+  const { setPoetryStore, getPoem } = useContext(PoetryContext);
+  const [board, setBoard] = useState(new Array(7).fill(new Array(6).fill('empty')));
+  const [moveStore, setMoveStore] = useState([]);
+  const [currentPlayer, setCurrentPlayer] = useState(player1);
+
+  const setNewBoard = () => {
+    setBoard(new Array(7).fill(new Array(6).fill('empty')));
+    setMoveStore([]);
+    setPoetryStore([]);
+
+    return;
+  }
+
   const addMove = (column) => {
-    setMoveStore([...moveStore.push(column)]);
+    setMoveStore([...moveStore, column]);
+  }
+
+  const togglePlayer = () => {
+    let nextPlayer = currentPlayer === player1 ? player2 : player1;
+    setCurrentPlayer(nextPlayer);
+    return;
   }
 
   const undoMove = () => {
-    //recalculate board
-    const lastPlayed = moveStore[moveStore.length - 1]
-    setMoveStore([...moveStore.pop()]);
+    // grab last played move from store
+    if (moveStore.length === 0) {
+      alert('Make a move first');
+      return;
+    }
+    let col = moveStore[moveStore.length - 1];
+    const newMoveStore = moveStore.slice(0, moveStore.length - 2)
+    //reset move store 
+    setMoveStore(newMoveStore);
+
+    // clone board & reset last played slot to empty
     const boardClone = [...board];
-    const playedColumn = boardClone[lastPlayed];
-    for (let i = 0; i < playedColumn.length; i++) {
-      if (playedColumn[i] !== null) {
-        playedColumn[i] = null;
+    for (let r = 0; r < 6; r++) {
+      if (boardClone[r][col] !== 'empty') {
+        boardClone[r][col] = 'empty';
         break;
       }
     }
     //set board
-    setBoard([...boardClone]);
-    let nextPlayer = currentPlayer === player1 ? player2 : player1;
-    setCurrentPlayer(nextPlayer);
+    setBoard(boardClone);
+    togglePlayer();
+    return;
   }
 
-  const playSlot = (slot) => {
-    //calculate new board
+  const playSlot = (col) => {
+    // clone board & set played slot to current player
     const boardClone = [...board];
-    const playedColumn = boardClone[slot.colId]
-    if (playedColumn.indexOf(null) !== -1){
-      for (let i = playedColumn.length - 1; i >= 0; i--) {
-        if (playedColumn[i] === null) {
-          playedColumn[i] = currentPlayer;
-          break;
-        }
+    console.log(col);
+
+    for (let r = 5; r >= 0; r--) {
+      if (boardClone[r][col] === 'empty') {
+        boardClone[r][col] = currentPlayer;
+        setBoard(boardClone);
+        addMove(col);
+        togglePlayer();
+        break;
       }
-      let nextPlayer = currentPlayer === player1 ? player2 : player1;
-      setCurrentPlayer(nextPlayer);
-      setBoard([...boardClone]);
-      addMove(playedColumn);
     }
-  }
-
-  const winnerCheck = () => {
-
+      return;
   }
 
   useEffect(() => {
     getPoem();
   }, [board])
   
-  const columns = [];
-  for (let i = 0; i < 8; i++){
-    columns.push(<Column key={`col${i}`} id={`Col${i}`} playSlot={props.playSlot}></Column> );
-  }
+  const columns = board.map((col, i) => <Column key={`col${i}`} id={i} playSlot={playSlot} column={col}></Column>);
 
   return (
-    <div className='board'>
-      {columns}
-      <UndoButton undoMove={props.undoMove}/>
-    </div>
+    <BoardStyled>
+      <button onClick={setNewBoard} className='button'><h4>Restart Game</h4></button>
+      <p>{currentPlayer}</p>
+      <div className='inner-board'>
+        {columns}
+      </div>
+        
+      <UndoButton undoMove={undoMove}/>
+    </BoardStyled>
+
   );
 
 }
+
+const BoardStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+
+  .inner-board {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid blue
+  }
+`
+
 
 export default Board;

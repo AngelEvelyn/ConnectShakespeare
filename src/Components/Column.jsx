@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Slot from './Slot';
+import Slot from './Slot.jsx';
 
 
 const Column = (props) => {
-    const slots = [];
-    for (let i = 0; i < 7; i++){
-        slots.push(<Slot key={`slot${i}`} id={i} colId={props} playSlot={props.playSlot}></Slot> );
-    }
+    const slots = props.column.map((slot, j) => <Slot key={`slot${j}`} id={j} colId={props.id} value={slot} /> );
+    
     return (  
-        <div className={col`${colNum}`}>
+        <div className='column' onClick={(event) => console.log(event.target)}>
+            {/* <p>
+             {props.colId}
+            </p> */}
             {slots}
         </div>
     );

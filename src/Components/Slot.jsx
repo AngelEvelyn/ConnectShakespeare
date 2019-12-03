@@ -1,9 +1,15 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+
 
 const Slot = (props) => {
-    return (  
-    <button id={props.id} colId = {props.colId} onClick={(event) => props.playSlot(event.target)}></button>
+    return ( 
+      <SlotStyled id={props.id} colId={props.colId} className={props.value} >{props.value}</SlotStyled>
     );
 }
  
+const SlotStyled = styled.div`
+  width: 50px;
+  height: 50px;
+`
 export default Slot;

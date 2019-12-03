@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: path.resolve(__dirname, 'src/index'),
   output: {
-    path: path.resolve(__dirname, '/build'),
+    path: path.resolve(__dirname, 'build'),
     publicPath: '/',
     filename: 'bundle.js',
   },
@@ -36,8 +36,5 @@ module.exports = {
         ],
       },
     ],
-  },
-  resolve: {
-    extensions: ['*', '.js', '.jsx'],
   },
 };
