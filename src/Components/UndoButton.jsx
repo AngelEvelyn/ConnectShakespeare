@@ -1,17 +1,28 @@
 import React, { useContext } from 'react';
 import { PoetryContext } from '../Contexts/PoetryContext.jsx';
+import { BoardContext } from '../Contexts/BoardContext.jsx';
+import styled from 'styled-components';
 
-const UndoButton = (props) => {
+const UndoButton = () => {
   const { undoPoem } = useContext(PoetryContext);
-  const undoMove = props.undoMove;
+  const { undoMove } = useContext(BoardContext);
 
   const undoAll = () => {
     undoMove();
     undoPoem();
   }
   return (
-    <button className='button' onClick={undoAll}>Undo Move</button>
+    <UndoButtonStyled onClick={undoAll}><h3>Undo Move</h3></UndoButtonStyled>
   );
 }
+
+// grid-area: button;
+// justify-self: center;
+
+const UndoButtonStyled = styled.button`
+  width: 250px;
+  height: 50px;
+  margin-bottom: 50px;
+`
  
 export default UndoButton;

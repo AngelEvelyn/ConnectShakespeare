@@ -4,12 +4,10 @@ import axios from 'axios';
 export const PoetryContext = createContext();
 
 const PoetryContextProvider = (props) => {
-  const [poetryStore, setPoetryStore] = useState([
-    {title: 'Roses are Red', line: 'Violets are blue'}
-  ]);
+  const [poetryStore, setPoetryStore] = useState([]);
 
   const undoPoem = () => {
-    const newPoetryStore = poetryStore.slice(0, poetryStore.length - 2);
+    const newPoetryStore = poetryStore.slice(0, poetryStore.length - 1);
     setPoetryStore(newPoetryStore);
   };
 
@@ -17,15 +15,17 @@ const PoetryContextProvider = (props) => {
     axios.get('http://poetrydb.org/author/Shakespeare')
     .then(data => {
       console.log(data);
-      //grab random line in string with regex
-      // make this into a helper function
-      const poem = data.data[Math.random()]
-      // const title = poems[Math.random()]
-      // const line = (data) => {
-      //   data.lines
-      // }
-      // const newPoem = {title, line}; //object with title and line property
-      // setPoetryStore([...poetryStore, newPoem]);
+      const poems = data.data;
+      const poem = poems[Math.floor(Math.random() * poems.length)]
+      console.log('poem: ', poem);
+      const title = poem.title
+      const line = () => {
+        const textLines = poem.lines.filter((line) => line !== '');
+        console.log(textLines);
+        return textLines[Math.floor(Math.random() * textLines.length)];
+      }
+      const newPoem = {title, line}; //object with title and line property
+      setPoetryStore([...poetryStore, newPoem]);
       return;
       });
   };
