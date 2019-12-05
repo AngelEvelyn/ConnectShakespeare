@@ -17,14 +17,11 @@ const PoetryContextProvider = (props) => {
       console.log(data);
       const poems = data.data;
       const poem = poems[Math.floor(Math.random() * poems.length)]
-      console.log('poem: ', poem);
       const title = poem.title
-      const line = () => {
-        const textLines = poem.lines.filter((line) => line !== '');
-        console.log(textLines);
-        return textLines[Math.floor(Math.random() * textLines.length)];
-      }
+      const textLines = poem.lines.filter((line) => line !== '');
+      const line = textLines[Math.floor(Math.random() * textLines.length)];
       const newPoem = {title, line}; //object with title and line property
+      console.log(newPoem);
       setPoetryStore([...poetryStore, newPoem]);
       return;
       });

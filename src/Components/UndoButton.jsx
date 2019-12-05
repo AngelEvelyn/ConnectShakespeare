@@ -23,6 +23,7 @@ const UndoButtonStyled = styled.button`
   width: 250px;
   height: 50px;
   margin-bottom: 50px;
+  background-color: blue;
 `
  
 export default UndoButton;
