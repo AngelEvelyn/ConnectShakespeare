@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { PoetryContext } from '../Contexts/PoetryContext.jsx';
-import PoetryBox from '../Components/PoetryBox.jsx';
+import { PoetryContext } from '../Contexts/PoetryContext';
+import PoetryBox from '../Components/PoetryBox';
 import styled from 'styled-components';
 
 const PoetryDisplay = () => {

@@ -1,7 +1,19 @@
 import React from 'react';
-import { render } from 'react-dom';
-import App from './App.jsx'
+import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import App from './App'
 
-render(
-  <App />,
-   document.getElementById('root'));
+const render = () => {
+  ReactDOM.render(
+    <AppContainer>
+      <App/>
+    </AppContainer>,
+    document.getElementById('root')
+  );
+};
+
+render();
+
+if (module.hot) {
+    module.hot.accept('./App', render);
+  }

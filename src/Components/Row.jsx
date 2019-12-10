@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Slot from './Slot.jsx';
+import Slot from './Slot';
 import styled from 'styled-components';
 
 

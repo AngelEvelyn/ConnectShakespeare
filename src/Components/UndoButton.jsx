@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { PoetryContext } from '../Contexts/PoetryContext.jsx';
-import { BoardContext } from '../Contexts/BoardContext.jsx';
+import { PoetryContext } from '../Contexts/PoetryContext';
+import { BoardContext } from '../Contexts/BoardContext';
 import styled from 'styled-components';
 
 const UndoButton = () => {

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { PoetryContext } from '../Contexts/PoetryContext.jsx';
-import { BoardContext } from '../Contexts/BoardContext.jsx';
-import Row from '../Components/Row.jsx';
+import { PoetryContext } from '../Contexts/PoetryContext';
+import { BoardContext } from '../Contexts/BoardContext';
+import Row from '../Components/Row';
 import styled from 'styled-components';
 
 
